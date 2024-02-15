@@ -5,6 +5,7 @@ This module defines a FastAPI application with an endpoint for making prediction
 """
 import os
 import sys
+import numpy
 sys.path.append(os.path.join(os.path.dirname(__file__), "starter", "ml"))
 import pandas as pd
 from data import process_data
