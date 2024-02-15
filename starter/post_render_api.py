@@ -53,7 +53,7 @@ def api_test(url, data_input):
 
 if __name__ == "__main__":
     # Update the URL to your specific API endpoint
-    api_url = "https://udacity-app-nbh.onrender.com/predict"
+    api_url = "https://proj4.onrender.com/predict"
 
     data_input = {
         "age": 53,
