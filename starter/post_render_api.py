@@ -6,9 +6,10 @@ It logs information about the status code, response content, and the time taken 
 
 """
 
-import requests
 import logging
 import time
+
+import requests
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 
@@ -69,7 +70,7 @@ if __name__ == "__main__":
         "capital_gain": 0,
         "capital_loss": 0,
         "hours_per_week": 40,
-        "native_country": "United-States"
+        "native_country": "United-States",
     }
 
     api_test(api_url, data_input)
