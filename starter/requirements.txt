@@ -1,9 +1,9 @@
-fastapi==0.63.0
 flake8
-gunicorn
 numpy
 pandas
+scikit-learn
 pytest
 requests
-scikit-learn
+fastapi==0.63.0
 uvicorn
+gunicorn

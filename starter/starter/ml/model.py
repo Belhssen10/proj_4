@@ -1,6 +1,6 @@
-import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
+from sklearn.ensemble import RandomForestClassifier
+import pandas as pd
 
 
 # Optional: implement hyperparameter tuning.
@@ -48,7 +48,7 @@ def compute_model_metrics(y, preds):
 
 
 def inference(model, X):
-    """Run model inferences and return the predictions.
+    """ Run model inferences and return the predictions.
 
     Inputs
     ------
@@ -63,7 +63,6 @@ def inference(model, X):
     """
     preds = model.predict(X)
     return preds
-
 
 def compute_slices(df, feature, y, preds):
     """
@@ -90,7 +89,7 @@ def compute_slices(df, feature, y, preds):
     """
     slice_options = df[feature].unique()
     performance_data = []
-    save_path = "starter/starter/slice_output.txt"
+    save_path = 'starter/slice_output.txt'
 
     for option in slice_options:
         slice_mask = df[feature] == option
@@ -101,15 +100,13 @@ def compute_slices(df, feature, y, preds):
         recall = recall_score(slice_y, slice_preds)
         fbeta = fbeta_score(slice_y, slice_preds, beta=1)
 
-        performance_data.append(
-            {
-                "feature value": option,
-                "n_samples": len(slice_y),
-                "precision": precision,
-                "recall": recall,
-                "fbeta": fbeta,
-            }
-        )
+        performance_data.append({
+            'feature value': option,
+            'n_samples': len(slice_y),
+            'precision': precision,
+            'recall': recall,
+            'fbeta': fbeta
+        })
 
     performance_df = pd.DataFrame(performance_data)
-    performance_df.to_csv(save_path, mode="a", index=False)
+    performance_df.to_csv(save_path, mode='a', index=False)

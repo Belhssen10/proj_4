@@ -7,17 +7,16 @@ This module defines fixtures and tests for ensuring the correct behavior of the 
 # Add ML module path to sys.path
 import os
 import sys
-
 sys.path.append(os.path.join(os.path.dirname(__file__), "starter", "ml"))
 
 import logging
-
-import joblib
-import pandas as pd
 import pytest
-from data import process_data
-from model import compute_model_metrics, compute_slices, inference
 from sklearn.model_selection import train_test_split
+from model import compute_model_metrics, inference, compute_slices
+from data import process_data
+import pandas as pd
+import joblib
+
 
 DATA_PATH = "data/census.csv"
 MODEL_PATH = "model/trained_model.pkl"
@@ -32,7 +31,7 @@ def data():
     pd.DataFrame: Loaded dataset.
     """
     data = pd.read_csv(DATA_PATH)
-    data.columns = data.columns.str.replace(" ", "")
+    data.columns = data.columns.str.replace(' ', '')
     return data
 
 
@@ -56,16 +55,14 @@ def features():
     Returns:
     list: List of categorical features.
     """
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country",
-    ]
+    cat_features = ["workclass",
+                    "education",
+                    "marital-status",
+                    "occupation",
+                    "relationship",
+                    "race",
+                    "sex",
+                    "native-country"]
     return cat_features
 
 
@@ -81,23 +78,11 @@ def data_train_test(data, features):
     Returns:
     tuple: Training and testing data.
     """
-    train, test = train_test_split(
-        data,
-        test_size=0.20,
-        random_state=0,
-    )
-    X_train, y_train, encoder, lb = process_data(
-        train, categorical_features=features, label="salary", training=True
+    X, y, encoder, lb = process_data(
+        data, categorical_features=features, label="salary", training=True
     )
 
-    X_test, y_test, encoder, lb = process_data(
-        test,
-        categorical_features=features,
-        label="salary",
-        training=True,
-        encoder=encoder,
-        lb=lb,
-    )
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=0)
     return X_train, X_test, y_train, y_test
 
 
@@ -181,7 +166,8 @@ def test_compute_model_metrics(model, data_train_test):
         raise AssertionError
 
 
-def test_compute_performance_for_slices(data, data_train_test, features, model):
+def test_compute_performance_for_slices(
+        data, data_train_test, features, model):
     """
     Test for verifying that the model can compute metrics for different slices.
 
@@ -194,6 +180,7 @@ def test_compute_performance_for_slices(data, data_train_test, features, model):
     Raises:
     - AssertionError: If the model can't compute slices.
     """
+    print(os.getcwd())
     try:
         _, test = train_test_split(data, test_size=0.20)
         _, X_test, _, y_test = data_train_test
@@ -201,7 +188,7 @@ def test_compute_performance_for_slices(data, data_train_test, features, model):
         for feature in features:
             compute_slices(test, feature, y_test, preds)
         # Check that the file is created
-        assert os.path.exists("./slice_output.txt")
+        assert os.path.exists('starter/slice_output.txt')
     except AssertionError:
         logging.error("Model can't compute slices")
         raise AssertionError
